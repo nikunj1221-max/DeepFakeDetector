@@ -18,6 +18,13 @@ class HealthResponse(BaseModel):
     device: str
 
 
+
+
+
+
+
+
+
 class ModelInfoResponse(BaseModel):
     architecture: str
     input_size: str

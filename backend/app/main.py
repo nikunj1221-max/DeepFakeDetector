@@ -22,6 +22,11 @@ ALLOWED_CONTENT_TYPES = {"image/jpeg", "image/png", "image/webp"}
 MAX_FILE_BYTES = 10 * 1024 * 1024  # 10 MB
 
 
+
+
+
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Load the model before accepting traffic; release resources on shutdown."""

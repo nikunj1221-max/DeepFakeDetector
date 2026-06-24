@@ -47,7 +47,13 @@ class DeepfakeDetector(nn.Module):
     We replace it with:
         Sequential(Dropout(p=0.2), Linear(1280, 2))
     which gives logits for [REAL, FAKE].
-    """
+   
+    
+     
+      
+       
+        
+          """
 
     def __init__(self, pretrained: bool = True) -> None:
         super().__init__()
