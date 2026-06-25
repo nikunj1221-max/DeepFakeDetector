@@ -8,26 +8,47 @@
    THE RIDER WHO CHASED SHADOWS — Vintage Storybook Design Tokens
    ══════════════════════════════════════════════════════════════════════════ */
 :root {
-  /* Sepia Gold (tertiary) */
-  --gold:               #c5a04f;
-  --gold-dim:           rgba(197, 160, 79, 0.12);
+  /* Obsidian & Gold Theme */
+  --bg-parchment:       #0d0d0d;
+  --bg-parchment-warm:  #141414;
+  --bg-parchment-dark:  #050505;
+  --surface-card:       #1a1a1a;
+  --surface-card-hover: #222222;
+
+  /* Borders */
+  --border-aged:        rgba(253, 250, 246, 0.1);
+  --border-aged-hover:  rgba(253, 250, 246, 0.2);
+  --border-ornament:    rgba(212, 175, 55, 0.25);
+
+  /* Primary Accent: Bright Gold (replaces Maroon) */
+  --maroon:             #d4af37;
+  --maroon-dim:         rgba(212, 175, 55, 0.15);
+  --maroon-glow:        rgba(212, 175, 55, 0.25);
+
+  /* Aged Navy (secondary) */
+  --navy:               #1a1f26;
+  --navy-dim:           rgba(26, 31, 38, 0.5);
+
+  /* Secondary Accent: Lighter Gold */
+  --gold:               #f3e5ab;
+  --gold-dim:           rgba(243, 229, 171, 0.12);
 
   /* Classifications */
-  --authentic-green:    #3a7d5c;
-  --authentic-green-dim:rgba(58, 125, 92, 0.1);
-  --forgery-red:        #8b3040;
-  --forgery-red-dim:    rgba(139, 48, 64, 0.1);
+  --authentic-green:    #4ade80;
+  --authentic-green-dim:rgba(74, 222, 128, 0.15);
+  --forgery-red:        #ef4444;
+  --forgery-red-dim:    rgba(239, 68, 68, 0.15);
 
   /* Typography */
-  --text-primary:       #2a1f1a;
-  --text-body:          #4a3f38;
-  --text-muted:         #8a7e75;
-  --text-faint:         #b5aa9e;
+  --text-primary:       #fdfaf6;
+  --text-body:          #e0d9cf;
+  --text-muted:         #a39c94;
+  --text-faint:         #6e6963;
 
   /* Shadows */
-  --shadow-soft:        0 4px 24px rgba(42, 31, 26, 0.06);
-  --shadow-card:        0 2px 16px rgba(42, 31, 26, 0.08), 0 1px 4px rgba(42, 31, 26, 0.04);
-  --shadow-elevated:    0 8px 40px rgba(42, 31, 26, 0.12);
+  --shadow-soft:        0 4px 24px rgba(0, 0, 0, 0.5);
+  --shadow-card:        0 2px 16px rgba(0, 0, 0, 0.6), 0 1px 4px rgba(0, 0, 0, 0.4);
+  --shadow-elevated:    0 8px 40px rgba(0, 0, 0, 0.8);
 }
 
 /* ── Base Reset & Body ─────────────────────────────────────────────────── */

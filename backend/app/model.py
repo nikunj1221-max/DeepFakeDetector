@@ -95,14 +95,21 @@ class ModelInference:
 
         if model_path is not None:
             checkpoint = torch.load(model_path, map_location=self.device)
-            # Support both raw state-dicts and dicts saved by train.py
             state_dict = checkpoint.get("model_state_dict", checkpoint)
+
+            # Kaggle training saved keys as "features.x" (bare EfficientNet)
+            # but DeepfakeDetector wraps it as "backbone.features.x"
+            # Detect which format and remap if needed
+            first_key = next(iter(state_dict.keys()))
+            if not first_key.startswith("backbone."):
+                state_dict = {f"backbone.{k}": v for k, v in state_dict.items()}
+                print("[model] Remapped state dict keys → added 'backbone.' prefix")
+
             self.model.load_state_dict(state_dict)
             print(f"[model] Loaded fine-tuned weights from {model_path}")
         else:
             print("[model] ⚠ Using ImageNet-pretrained backbone only.")
             print("[model] ⚠ Run train.py to fine-tune on deepfake data for accurate results.")
-
         self.model.to(self.device)
         self.model.eval()
 

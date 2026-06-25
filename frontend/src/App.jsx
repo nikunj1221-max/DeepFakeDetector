@@ -258,7 +258,7 @@ export default function App() {
 
           {/* TEXT 1 (Y=1300 -> 23.2%) */}
           <div className="absolute top-[23.2%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] sm:w-[65%] max-w-xl z-10 text-center">
-            <div className="vintage-card p-6 sm:p-8 bg-white/80 backdrop-blur shadow-xl">
+            <div className="vintage-card p-6 sm:p-8 bg-black/60 backdrop-blur shadow-xl">
               <p className="chapter-label mb-3">1839</p>
               <h2 className="chapter-heading mb-4 text-2xl">The Mysterious Photograph</h2>
               <p className="font-body text-lg text-[var(--text-body)] leading-relaxed">
@@ -276,7 +276,7 @@ export default function App() {
 
           {/* TEXT 2 (Y=2500 -> 44.6%) */}
           <div className="absolute top-[44.6%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] sm:w-[65%] max-w-xl z-10 text-center">
-            <div className="vintage-card p-6 sm:p-8 bg-white/80 backdrop-blur shadow-xl">
+            <div className="vintage-card p-6 sm:p-8 bg-black/60 backdrop-blur shadow-xl">
               <p className="chapter-label mb-3">The Studio</p>
               <h2 className="chapter-heading mb-4 text-2xl">A Fatal Flaw</h2>
               <p className="font-body text-lg text-[var(--text-body)] leading-relaxed">
@@ -294,7 +294,7 @@ export default function App() {
 
           {/* TEXT 3 (Y=3700 -> 66.0%) */}
           <div className="absolute top-[66.0%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] sm:w-[65%] max-w-xl z-10 text-center">
-            <div className="vintage-card p-6 sm:p-8 bg-white/80 backdrop-blur shadow-xl">
+            <div className="vintage-card p-6 sm:p-8 bg-black/60 backdrop-blur shadow-xl">
               <p className="chapter-label mb-3">The Culprit</p>
               <h2 className="chapter-heading mb-4 text-2xl">The First Forger</h2>
               <p className="font-body text-lg text-[var(--text-body)] leading-relaxed">
@@ -305,7 +305,7 @@ export default function App() {
 
           {/* TEXT 4 (Y=4300 -> 76.7%) */}
           <div className="absolute top-[76.7%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] sm:w-[65%] max-w-xl z-10 text-center">
-            <div className="vintage-card p-6 sm:p-8 bg-white/80 backdrop-blur shadow-xl border-l-4 border-[var(--maroon)]">
+            <div className="vintage-card p-6 sm:p-8 bg-black/60 backdrop-blur shadow-xl border-l-4 border-[var(--maroon)]">
               <p className="story-quote-large text-2xl sm:text-3xl text-[var(--maroon)]">
                 "He hoped the future would build something smarter than a human eye to catch them."
               </p>
