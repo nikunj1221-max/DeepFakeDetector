@@ -1,0 +1,111 @@
+# ── Python ──────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+wheels/
+*.manifest
+*.spec
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# ── FastAPI / backend ────────────────────────────────────
+.env.local
+.env.production
+.env.*.local
+*.log
+logs/
+
+# Uploaded repos (cloned for indexing — never commit)
+repos/
+cloned_repos/
+tmp_repos/
+uploads/
+
+# Parsed code chunks cache
+chunks/
+cache/
+
+# ── ML / embeddings ──────────────────────────────────────
+# HuggingFace model weights (downloaded at runtime)
+models/
+*.bin
+*.safetensors
+*.onnx
+*.pt
+*.pth
+
+# HuggingFace cache
+.cache/huggingface/
+~/.cache/huggingface/
+
+# ── Qdrant ───────────────────────────────────────────────
+# Local Qdrant storage (Docker volume data)
+qdrant_storage/
+qdrant_data/
+
+# ── PostgreSQL / SQLite ──────────────────────────────────
+*.db
+*.sqlite
+*.sqlite3
+
+# ── Node / React frontend ────────────────────────────────
+node_modules/
+dist/
+build/
+.pnp
+.pnp.js
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+
+# Vite
+.vite/
+
+# ── Docker ───────────────────────────────────────────────
+# Don't ignore Dockerfile or docker-compose.yml — those should be committed
+.docker/
+
+# ── OS / editor ──────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# ── Testing ──────────────────────────────────────────────
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# ── Evaluation / benchmarks ──────────────────────────────
+# CodeSearchNet dataset (large, download separately)
+data/
+datasets/
+codesearchnet/
+*.jsonl.gz
+
+# Evaluation outputs
+results/
+eval_outputs/
+mrr_results.json
