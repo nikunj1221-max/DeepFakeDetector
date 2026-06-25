@@ -83,7 +83,7 @@ async def model_info() -> ModelInfoResponse:
     return ModelInfoResponse(
         architecture="EfficientNet-B0",
         input_size="224×224",
-        classes=["REAL", "FAKE"],
+        classes=["FAKE", "REAL"],
         device=_model.device,
         using_finetuned_weights=os.getenv("MODEL_PATH") is not None,
     )
