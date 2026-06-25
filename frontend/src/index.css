@@ -1,335 +1,531 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ── Design tokens ──────────────────────────────────────────────────────── */
+/* ── Gold, Carbon & Green JARVIS Design Tokens ──────────────────────────── */
 :root {
-  --bg:            #060A14;
-  --surface:       #0D1425;
-  --surface-2:     #162032;
-  --border:        #1E2D44;
-  --border-hover:  #2A4060;
-  --accent:        #2563EB;
-  --accent-dim:    #1D4ED840;
-  --real:          #059669;
-  --real-bg:       #05966912;
-  --real-border:   #05966940;
-  --fake:          #DC2626;
-  --fake-bg:       #DC262612;
-  --fake-border:   #DC262640;
-  --text-primary:  #E2E8F0;
-  --text-secondary:#94A3B8;
-  --text-muted:    #475569;
+  /* Warm Carbon charcoal and deep gold background gradient */
+  --bg-cyber:         #0a0805;
+  --bg-grid:          #16120b;
+  --surface-hud:      rgba(24, 18, 11, 0.65);
+  --surface-hud-lucid:rgba(33, 25, 15, 0.85);
+  --border-hud:       rgba(255, 166, 0, 0.35);
+  --border-hud-hover: rgba(255, 166, 0, 0.7);
+  
+  /* Gold/Amber Accents (Primary active states) */
+  --accent-cyan:      #ffa600; /* Replaces cyan with gold/amber */
+  --accent-cyan-dim:  rgba(255, 166, 0, 0.25);
+  
+  /* Green/Teal Accents (Secondary details / buttons) */
+  --accent-gold:      #00e676; /* Replaces gold with vibrant green */
+  --accent-gold-dim:  rgba(0, 230, 118, 0.25);
+  
+  /* Verdicts */
+  --real-green:       #00e676;
+  --real-green-dim:   rgba(0, 230, 118, 0.18);
+  --real-border:      rgba(0, 230, 118, 0.5);
+  --fake-red:         #ff3d00;
+  --fake-red-dim:     rgba(255, 61, 0, 0.18);
+  --fake-border:      rgba(255, 61, 0, 0.5);
+  
+  /* Typography - warm, brassy tints */
+  --text-cyber:       #fffcf7;
+  --text-dim:         #d4c4b2;
+  --text-dark:        #80705d;
+  
+  /* Increased text/icon neon glows */
+  --glow-cyan:        0 0 14px rgba(255, 166, 0, 0.85); /* gold glow */
+  --glow-gold:        0 0 14px rgba(0, 230, 118, 0.85); /* green glow */
+  --glow-red:         0 0 14px rgba(255, 61, 0, 0.85);
+  --glow-green:       0 0 14px rgba(0, 230, 118, 0.85);
 }
 
-/* ── Base ───────────────────────────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; }
+/* ── Base Reset & Scrollbar ──────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
 
 body {
-  background: var(--bg);
-  color: var(--text-primary);
+  background-color: var(--bg-cyber);
+  /* Warm radial glow behind the UI grid, matching the mockup's light sources */
+  background-image: 
+    radial-gradient(circle at 50% 50%, #201608 0%, var(--bg-cyber) 100%),
+    linear-gradient(rgba(255, 166, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 166, 0, 0.04) 1px, transparent 1px);
+  background-size: 100% 100%, 40px 40px, 40px 40px;
+  background-position: center;
+  color: var(--text-cyber);
   font-family: 'Inter', sans-serif;
   min-height: 100vh;
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── Scrollbar ──────────────────────────────────────────────────────────── */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-
-/* ── Upload zone ────────────────────────────────────────────────────────── */
-.uploader {
-  width: 100%;
-  max-width: 560px;
-  border: 1.5px dashed var(--border);
-  border-radius: 16px;
-  background: var(--surface);
-  padding: 56px 32px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  cursor: pointer;
-  transition: border-color 0.2s, background 0.2s;
-  outline: none;
-  animation: pulseRing 3s ease-in-out infinite;
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
-.uploader:hover,
-.uploader.dragging {
-  border-color: var(--accent);
-  background: var(--accent-dim);
-  animation: none;
+::-webkit-scrollbar-track {
+  background: var(--bg-cyber);
+  border-left: 1px solid rgba(255, 166, 0, 0.08);
 }
-.uploader:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+::-webkit-scrollbar-thumb {
+  background: var(--accent-cyan-dim);
+  border: 1px solid var(--accent-cyan);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-cyan);
+  box-shadow: var(--glow-cyan);
 }
 
-@keyframes pulseRing {
-  0%, 100% { border-color: var(--border); }
-  50%       { border-color: #2563EB55; }
-}
-
-/* ── Upload icon ────────────────────────────────────────────────────────── */
-.upload-icon-wrap {
-  width: 56px;
-  height: 56px;
-  border-radius: 12px;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 4px;
-}
-.upload-icon { width: 28px; height: 28px; color: var(--accent); }
-
-.upload-title {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 16px;
-  font-weight: 500;
-  color: var(--text-primary);
-  margin: 0;
-}
-.upload-sub {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  color: var(--text-muted);
-  margin: 0;
-}
-
-.upload-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 16px;
-  justify-content: center;
-}
-.upload-tags .tag {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  padding: 3px 10px;
-  border-radius: 6px;
-  border: 1px solid var(--border);
-  color: var(--text-muted);
-  background: var(--bg);
-}
-
-/* ── Scanning overlay (the memorable signature element) ─────────────────── */
-.scan-wrap {
-  position: absolute;
+/* ── Futuristic Tech Background Elements ─────────────────────────────────── */
+.cyber-grid-overlay {
+  position: fixed;
   inset: 0;
-  overflow: hidden;
   pointer-events: none;
-  border-radius: 12px;
+  z-index: 0;
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(32, 22, 8, 0.25) 0%, var(--bg-cyber) 85%),
+    linear-gradient(rgba(255, 166, 0, 0.035) 1.5px, transparent 1.5px),
+    linear-gradient(90deg, rgba(255, 166, 0, 0.035) 1.5px, transparent 1.5px);
+  background-size: 100% 100%, 20px 20px, 20px 20px;
+  background-attachment: fixed;
 }
 
-/* The glowing sweep line */
-.scan-line {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(to right, transparent 0%, #2563EB 35%, #60A5FA 50%, #2563EB 65%, transparent 100%);
-  box-shadow: 0 0 12px 2px #2563EB88;
-  animation: scanDown 2s linear infinite;
-}
-@keyframes scanDown {
-  0%   { top: 0%; }
-  100% { top: 100%; }
+/* ── HUD Panel Styles ────────────────────────────────────────────────────── */
+.hud-panel {
+  position: relative;
+  background: var(--surface-hud);
+  border: 1px solid var(--border-hud);
+  border-radius: 4px;
+  box-shadow: inset 0 0 20px rgba(255, 166, 0, 0.05), 0 4px 24px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-/* Corner brackets */
-.scan-wrap::before,
-.scan-wrap::after {
+.hud-panel:hover {
+  border-color: var(--border-hud-hover);
+  box-shadow: inset 0 0 25px rgba(255, 166, 0, 0.08), 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Cyber corner brackets */
+.cyber-corners::before,
+.cyber-corners::after,
+.cyber-corners-inner::before,
+.cyber-corners-inner::after {
   content: '';
   position: absolute;
-  width: 18px;
-  height: 18px;
-  border-color: #2563EB;
+  width: 12px;
+  height: 12px;
+  border-color: var(--accent-cyan);
   border-style: solid;
-  opacity: 0.85;
+  pointer-events: none;
+  z-index: 10;
+  transition: border-color 0.3s;
 }
-.scan-wrap::before { top: 10px; left: 10px; border-width: 2px 0 0 2px; }
-.scan-wrap::after  { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; }
 
-/* Grid overlay */
-.scan-grid {
+/* Outer corner markers */
+.cyber-corners::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+.cyber-corners::after { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
+.cyber-corners-inner::before { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; }
+.cyber-corners-inner::after { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+/* Amber variants of corners */
+.corners-gold::before,
+.corners-gold::after,
+.corners-gold .cyber-corners-inner::before,
+.corners-gold .cyber-corners-inner::after {
+  border-color: var(--accent-gold);
+}
+
+/* Red (Fake) variants of corners */
+.corners-fake::before,
+.corners-fake::after,
+.corners-fake .cyber-corners-inner::before,
+.corners-fake .cyber-corners-inner::after {
+  border-color: var(--fake-red);
+}
+
+/* Green (Real) variants of corners */
+.corners-real::before,
+.corners-real::after,
+.corners-real .cyber-corners-inner::before,
+.corners-real .cyber-corners-inner::after {
+  border-color: var(--real-green);
+}
+
+/* Tech panel headers */
+.hud-panel-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent-cyan);
+  border-bottom: 1px solid var(--border-hud);
+  padding: 8px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 166, 0, 0.05);
+}
+
+.title-gold {
+  color: var(--accent-gold);
+  border-bottom-color: rgba(0, 230, 118, 0.25);
+  background: rgba(0, 230, 118, 0.05);
+}
+
+/* ── HUD Buttons ────────────────────────────────────────────────────────── */
+.hud-btn {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 10px 24px;
+  border-radius: 0px; /* Stark HUDs have geometric sharp cuts */
+  border: 1px solid var(--accent-cyan);
+  background: rgba(255, 166, 0, 0.08);
+  color: var(--accent-cyan);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: inset 0 0 10px rgba(255, 166, 0, 0.08);
+}
+
+.hud-btn:hover {
+  background: var(--accent-cyan);
+  color: var(--bg-cyber);
+  box-shadow: var(--glow-cyan), inset 0 0 10px rgba(255, 255, 255, 0.3);
+  text-shadow: none;
+}
+
+.hud-btn:active {
+  transform: scale(0.97);
+}
+
+.hud-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.25),
+    transparent
+  );
+  transition: 0.5s;
+}
+
+.hud-btn:hover::before {
+  left: 100%;
+}
+
+/* Gold Button Variant */
+.hud-btn-gold {
+  border-color: var(--accent-gold);
+  background: rgba(0, 230, 118, 0.08);
+  color: var(--accent-gold);
+  box-shadow: inset 0 0 10px rgba(0, 230, 118, 0.08);
+}
+.hud-btn-gold:hover {
+  background: var(--accent-gold);
+  color: var(--bg-cyber);
+  box-shadow: var(--glow-gold);
+}
+
+/* Secondary Tech Button */
+.hud-btn-sec {
+  border-color: rgba(255, 166, 0, 0.45);
+  background: transparent;
+  color: var(--text-dim);
+}
+.hud-btn-sec:hover {
+  border-color: var(--accent-cyan);
+  background: var(--accent-cyan-dim);
+  color: var(--accent-cyan);
+  box-shadow: 0 0 12px rgba(255, 166, 0, 0.35);
+}
+
+/* ── Futuristic Scanning Animation ──────────────────────────────────────── */
+.scanner-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/3;
+  background: rgba(12, 9, 6, 0.85);
+  border: 1px solid var(--border-hud);
+  overflow: hidden;
+}
+
+.scanning-line-v {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent, var(--accent-cyan), transparent);
+  box-shadow: var(--glow-cyan);
+  animation: sweepHorizontal 4s linear infinite;
+  z-index: 5;
+}
+
+.scanning-line-h {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, transparent, var(--accent-cyan), transparent);
+  box-shadow: var(--glow-cyan);
+  animation: sweepVertical 3.2s linear infinite;
+  z-index: 5;
+}
+
+@keyframes sweepHorizontal {
+  0% { left: 0%; }
+  50% { left: 100%; }
+  100% { left: 0%; }
+}
+
+@keyframes sweepVertical {
+  0% { top: 0%; }
+  50% { top: 100%; }
+  100% { top: 0%; }
+}
+
+/* Target Tracker Bounding Box */
+.hud-target-box {
+  position: absolute;
+  border: 1px dashed var(--accent-gold);
+  box-shadow: 0 0 10px rgba(0, 230, 118, 0.35);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: targetPulse 2s infinite ease-in-out;
+  pointer-events: none;
+}
+
+.hud-target-box::before,
+.hud-target-box::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-color: var(--accent-gold);
+  border-style: solid;
+}
+.hud-target-box::before { top: -2px; left: -2px; border-width: 2px 0 0 2px; }
+.hud-target-box::after { bottom: -2px; right: -2px; border-width: 0 2px 2px 0; }
+
+@keyframes targetPulse {
+  0%, 100% { opacity: 0.7; border-color: rgba(0, 230, 118, 0.5); }
+  50% { opacity: 1; border-color: rgba(0, 230, 118, 1); }
+}
+
+/* Dot grid scan pattern */
+.scan-dot-pattern {
   position: absolute;
   inset: 0;
-  background-image:
-    linear-gradient(rgba(37,99,235,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(37,99,235,0.04) 1px, transparent 1px);
-  background-size: 24px 24px;
+  opacity: 0.22;
+  background-image: radial-gradient(var(--accent-cyan) 1px, transparent 0);
+  background-size: 16px 16px;
+  pointer-events: none;
 }
 
-/* Dim the image itself while scanning */
-.scan-image-dim {
-  filter: brightness(0.65) saturate(0.7);
-  transition: filter 0.3s;
-}
-
-/* ── Buttons ────────────────────────────────────────────────────────────── */
-.btn-primary {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 15px;
-  font-weight: 500;
-  padding: 12px 28px;
-  border-radius: 10px;
-  border: none;
-  background: var(--accent);
-  color: #fff;
-  cursor: pointer;
-  transition: opacity 0.15s, transform 0.1s;
-  width: 100%;
-}
-.btn-primary:hover  { opacity: 0.9; }
-.btn-primary:active { transform: scale(0.98); }
-.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
-
-.btn-ghost {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 13px;
-  padding: 8px 16px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s;
-}
-.btn-ghost:hover { background: var(--surface-2); color: var(--text-primary); }
-
-/* ── Spinner ────────────────────────────────────────────────────────────── */
-.spinner {
-  width: 36px;
-  height: 36px;
-  border: 2px solid var(--border);
-  border-top-color: var(--accent);
-  border-radius: 50%;
-  animation: spin 0.7s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* ── Result card ────────────────────────────────────────────────────────── */
-.result-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  animation: fadeUp 0.45s ease-out forwards;
-}
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.verdict-badge {
-  border-radius: 10px;
-  padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-.verdict-badge.is-fake {
-  background: var(--fake-bg);
-  border: 1px solid var(--fake-border);
-}
-.verdict-badge.is-real {
-  background: var(--real-bg);
-  border: 1px solid var(--real-border);
-}
-
-.verdict-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+/* ── Holographic Circular Gauges ────────────────────────────────────────── */
+.hologram-circle-container {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
-  flex-shrink: 0;
 }
-.verdict-icon.fake { background: var(--fake-bg); color: var(--fake); border: 1px solid var(--fake-border); }
-.verdict-icon.real { background: var(--real-bg); color: var(--real); border: 1px solid var(--real-border); }
 
-.verdict-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  margin: 0 0 3px;
+.rotate-ring-cw {
+  animation: spinCW 20s linear infinite;
+  transform-origin: center;
 }
-.verdict-label.fake { color: var(--fake); }
-.verdict-label.real { color: var(--real); }
 
-.verdict-title {
+.rotate-ring-ccw {
+  animation: spinCCW 15s linear infinite;
+  transform-origin: center;
+}
+
+.rotate-ring-slow {
+  animation: spinCW 40s linear infinite;
+  transform-origin: center;
+}
+
+@keyframes spinCW {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spinCCW {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+
+/* ── Typography & Digital Text ───────────────────────────────────────────── */
+.font-orbitron {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 18px;
-  font-weight: 600;
-  margin: 0;
-}
-.verdict-title.fake { color: #F87171; }
-.verdict-title.real { color: #34D399; }
-
-/* ── Progress bar ───────────────────────────────────────────────────────── */
-.progress-track {
-  height: 6px;
-  border-radius: 9999px;
-  background: var(--surface-2);
-  overflow: hidden;
-}
-.progress-fill {
-  height: 100%;
-  border-radius: 9999px;
-  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ── Section label / typography utils ──────────────────────────────────── */
-.section-label {
+.font-mono-tech {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin: 0 0 10px;
 }
-.mono-val {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 13px;
-  color: var(--text-secondary);
+
+.glow-text-cyan {
+  color: var(--accent-cyan);
+  text-shadow: var(--glow-cyan);
 }
-.mono-sm {
+
+.glow-text-gold {
+  color: var(--accent-gold);
+  text-shadow: var(--glow-gold);
+}
+
+.glow-text-red {
+  color: var(--fake-red);
+  text-shadow: var(--glow-red);
+}
+
+.glow-text-green {
+  color: var(--real-green);
+  text-shadow: var(--glow-green);
+}
+
+/* Console logs typewriter styling */
+.console-log-box {
+  background: rgba(30, 24, 18, 0.85);
+  border: 1px solid rgba(255, 166, 0, 0.35);
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
-  color: var(--text-muted);
+  color: var(--text-dim);
+  padding: 12px;
+  border-radius: 2px;
+  overflow-y: auto;
+  max-height: 140px;
 }
 
-/* ── Error state ────────────────────────────────────────────────────────── */
-.error-panel {
-  background: #DC262612;
-  border: 1px solid var(--fake-border);
-  border-radius: 12px;
-  padding: 24px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
+.console-prefix {
+  color: var(--accent-cyan);
+  margin-right: 6px;
 }
 
-/* ── Status dot (header) ────────────────────────────────────────────────── */
-.status-dot {
-  width: 7px;
-  height: 7px;
+.console-warn {
+  color: var(--accent-gold);
+}
+
+.console-danger {
+  color: var(--fake-red);
+}
+
+.console-success {
+  color: var(--real-green);
+}
+
+/* ── Custom Animated Telemetry Widgets ───────────────────────────────────── */
+.progress-bar-hud {
+  height: 6px;
+  background: rgba(255, 166, 0, 0.08);
+  border: 1px solid rgba(255, 166, 0, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar-hud-fill {
+  height: 100%;
+  background: var(--accent-cyan);
+  box-shadow: var(--glow-cyan);
+  transition: width 0.8s cubic-bezier(0.1, 0.8, 0.2, 1);
+}
+
+.progress-bar-hud-fill.red {
+  background: var(--fake-red);
+  box-shadow: var(--glow-red);
+}
+
+.progress-bar-hud-fill.green {
+  background: var(--real-green);
+  box-shadow: var(--glow-green);
+}
+
+.progress-bar-hud-fill.gold {
+  background: var(--accent-gold);
+  box-shadow: var(--glow-gold);
+}
+
+/* Cybernetic diagnostic dots */
+.led-status {
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: var(--real);
-  box-shadow: 0 0 6px var(--real);
+  background: var(--text-dark);
+  transition: all 0.3s;
+}
+
+.led-status.active {
+  background: var(--accent-cyan);
+  box-shadow: var(--glow-cyan);
+}
+
+.led-status.real {
+  background: var(--real-green);
+  box-shadow: var(--glow-green);
+}
+
+.led-status.fake {
+  background: var(--fake-red);
+  box-shadow: var(--glow-red);
+}
+
+.led-status.pulse {
+  animation: ledPulse 1.5s infinite ease-in-out;
+}
+
+@keyframes ledPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+/* How It Works Node connecting line */
+.node-line {
+  position: absolute;
+  background: linear-gradient(90deg, var(--accent-cyan-dim), var(--accent-gold-dim));
+  height: 2px;
+  z-index: 0;
+  opacity: 0.6;
+}
+
+.node-dot-pulse {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-cyan);
+  box-shadow: var(--glow-cyan);
+  animation: nodeTravel 3s infinite linear;
+}
+
+@keyframes nodeTravel {
+  0% { left: 0%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
 }
