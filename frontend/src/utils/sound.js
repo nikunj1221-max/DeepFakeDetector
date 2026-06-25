@@ -1,7 +1,6 @@
 let audioCtx = null;
 let muted = false;
 
-// Safe init audio on user interaction to comply with autoplay policy
 function initAudio() {
   if (typeof window === 'undefined') return;
   if (!audioCtx) {
@@ -22,7 +21,9 @@ export const soundManager = {
   isMuted() {
     return muted;
   },
-  playBeep(frequency = 800, type = 'sine', duration = 0.05, volume = 0.1) {
+
+  // Warm, library-quiet beep
+  playBeep(frequency = 600, type = 'sine', duration = 0.06, volume = 0.04) {
     if (muted) return;
     try {
       initAudio();
@@ -41,19 +42,21 @@ export const soundManager = {
 
       osc.start();
       osc.stop(audioCtx.currentTime + duration);
-    } catch (e) {
-      // Fail silently (e.g. browser context restrictions)
-    }
+    } catch (e) {}
   },
-  
-  playHover() {
-    this.playBeep(1300, 'sine', 0.02, 0.015);
+
+  // Gentle page-turn whisper
+  playPageTurn() {
+    this.playBeep(280, 'sine', 0.08, 0.02);
+    setTimeout(() => this.playBeep(420, 'sine', 0.05, 0.015), 40);
   },
-  
+
+  // Soft click
   playClick() {
-    this.playBeep(1800, 'sine', 0.06, 0.05);
+    this.playBeep(800, 'sine', 0.03, 0.03);
   },
-  
+
+  // Gentle sweep for scanning
   playSweep() {
     if (muted) return;
     try {
@@ -65,70 +68,61 @@ export const soundManager = {
       osc.connect(gain);
       gain.connect(audioCtx.destination);
 
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(250, audioCtx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(1400, audioCtx.currentTime + 1.2);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(900, audioCtx.currentTime + 1.0);
 
-      gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.2);
+      gain.gain.setValueAtTime(0.02, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.0);
 
       osc.start();
-      osc.stop(audioCtx.currentTime + 1.2);
+      osc.stop(audioCtx.currentTime + 1.0);
     } catch (e) {}
   },
-  
+
+  // Warm success chime (authentic verdict)
   playSuccess() {
     if (muted) return;
     try {
       initAudio();
       if (!audioCtx) return;
       const now = audioCtx.currentTime;
-      // Synthesize a pleasant high-tech chime arpeggio
-      const notes = [587.33, 783.99, 1174.66]; // D5, G5, D6
-      notes.forEach((freq, index) => {
+      const notes = [523.25, 659.25, 783.99]; // C5, E5, G5
+      notes.forEach((freq, i) => {
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
-
         osc.connect(gain);
         gain.connect(audioCtx.destination);
-
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(freq, now + index * 0.08);
+        osc.frequency.setValueAtTime(freq, now + i * 0.1);
         gain.gain.setValueAtTime(0, now);
-        gain.gain.setValueAtTime(0.04, now + index * 0.08);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + index * 0.08 + 0.35);
-
-        osc.start(now + index * 0.08);
-        osc.stop(now + index * 0.08 + 0.4);
+        gain.gain.setValueAtTime(0.025, now + i * 0.1);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + i * 0.1 + 0.4);
+        osc.start(now + i * 0.1);
+        osc.stop(now + i * 0.1 + 0.45);
       });
     } catch (e) {}
   },
-  
+
+  // Solemn double-tone for forgery detection
   playWarning() {
     if (muted) return;
     try {
       initAudio();
       if (!audioCtx) return;
       const now = audioCtx.currentTime;
-      // Low dual alarm alert tones
-      const frequencies = [200, 240];
-      frequencies.forEach(freq => {
+      const notes = [293.66, 261.63]; // D4, C4 — descending
+      notes.forEach((freq, i) => {
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
-
         osc.connect(gain);
         gain.connect(audioCtx.destination);
-
-        osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(freq, now);
-        osc.frequency.linearRampToValueAtTime(freq + 30, now + 0.12);
-        osc.frequency.linearRampToValueAtTime(freq, now + 0.25);
-
-        gain.gain.setValueAtTime(0.06, now);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.35);
-
-        osc.start();
-        osc.stop(now + 0.4);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now + i * 0.15);
+        gain.gain.setValueAtTime(0.03, now + i * 0.15);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + i * 0.15 + 0.3);
+        osc.start(now + i * 0.15);
+        osc.stop(now + i * 0.15 + 0.35);
       });
     } catch (e) {}
   }
