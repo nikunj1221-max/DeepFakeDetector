@@ -5,50 +5,50 @@
 @tailwind utilities;
 
 /* ══════════════════════════════════════════════════════════════════════════
-   THE RIDER WHO CHASED SHADOWS — Vintage Storybook Design Tokens
+   THE RIDER WHO CHASED SHADOWS — Modern Cyber-Archive Design Tokens
    ══════════════════════════════════════════════════════════════════════════ */
 :root {
-  /* Obsidian & Gold Theme */
-  --bg-parchment:       #0d0d0d;
-  --bg-parchment-warm:  #141414;
-  --bg-parchment-dark:  #050505;
-  --surface-card:       #1a1a1a;
-  --surface-card-hover: #222222;
+  /* Art-Deco Noir */
+  --bg-parchment:       #100d09;
+  --bg-parchment-warm:  #1f1813;
+  --bg-parchment-dark:  #090705;
+  --surface-card:       #231d18;
+  --surface-card-hover: #2f2922;
 
   /* Borders */
-  --border-aged:        rgba(253, 250, 246, 0.1);
-  --border-aged-hover:  rgba(253, 250, 246, 0.2);
-  --border-ornament:    rgba(212, 175, 55, 0.25);
+  --border-aged:        rgba(212, 175, 55, 0.16);
+  --border-aged-hover:  rgba(212, 175, 55, 0.28);
+  --border-ornament:    rgba(212, 175, 55, 0.2);
 
-  /* Primary Accent: Bright Gold (replaces Maroon) */
-  --maroon:             #d4af37;
-  --maroon-dim:         rgba(212, 175, 55, 0.15);
-  --maroon-glow:        rgba(212, 175, 55, 0.25);
+  /* Primary Accent */
+  --maroon:             #7d1320;
+  --maroon-dim:         rgba(125, 19, 32, 0.14);
+  --maroon-glow:        rgba(212, 175, 55, 0.24);
 
-  /* Aged Navy (secondary) */
-  --navy:               #1a1f26;
-  --navy-dim:           rgba(26, 31, 38, 0.5);
+  /* Secondary tones */
+  --navy:               #120f0c;
+  --navy-dim:           rgba(18, 15, 12, 0.45);
 
-  /* Secondary Accent: Lighter Gold */
-  --gold:               #f3e5ab;
-  --gold-dim:           rgba(243, 229, 171, 0.12);
+  /* Secondary Accent */
+  --gold:               #d4af37;
+  --gold-dim:           rgba(212, 175, 55, 0.12);
 
   /* Classifications */
-  --authentic-green:    #4ade80;
-  --authentic-green-dim:rgba(74, 222, 128, 0.15);
-  --forgery-red:        #ef4444;
-  --forgery-red-dim:    rgba(239, 68, 68, 0.15);
+  --authentic-green:    #22c55e;
+  --authentic-green-dim:rgba(34, 197, 94, 0.15);
+  --forgery-red:        #f97316;
+  --forgery-red-dim:    rgba(249, 115, 22, 0.15);
 
   /* Typography */
-  --text-primary:       #fdfaf6;
-  --text-body:          #e0d9cf;
-  --text-muted:         #a39c94;
-  --text-faint:         #6e6963;
+  --text-primary:       #e2efff;
+  --text-body:          #b8d2f0;
+  --text-muted:         #90a9c4;
+  --text-faint:         #6f87a2;
 
   /* Shadows */
-  --shadow-soft:        0 4px 24px rgba(0, 0, 0, 0.5);
-  --shadow-card:        0 2px 16px rgba(0, 0, 0, 0.6), 0 1px 4px rgba(0, 0, 0, 0.4);
-  --shadow-elevated:    0 8px 40px rgba(0, 0, 0, 0.8);
+  --shadow-soft:        0 4px 24px rgba(0, 0, 0, 0.55);
+  --shadow-card:        0 2px 18px rgba(0, 0, 0, 0.5), 0 1px 6px rgba(0, 0, 0, 0.22);
+  --shadow-elevated:    0 8px 40px rgba(0, 0, 0, 0.75);
 }
 
 /* ── Base Reset & Body ─────────────────────────────────────────────────── */
@@ -78,7 +78,7 @@ body {
   background: var(--bg-parchment);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(107, 45, 62, 0.2);
+  background: rgba(212, 175, 55, 0.16);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
@@ -235,10 +235,10 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  border: 1px solid rgba(107, 45, 62, 0.12);
+  border: 1px solid rgba(212, 175, 55, 0.14);
   border-radius: 4px;
   pointer-events: none;
-  box-shadow: inset 0 0 40px rgba(42, 31, 26, 0.06);
+  box-shadow: inset 0 0 40px rgba(12, 8, 5, 0.18);
 }
 
 /* ── Vintage Card Panels ───────────────────────────────────────────────── */
@@ -320,7 +320,7 @@ body {
 .btn-vintage:hover {
   background: var(--maroon);
   color: #fff;
-  box-shadow: 0 4px 16px rgba(107, 45, 62, 0.2);
+  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.22);
 }
 
 .btn-vintage:active {
@@ -411,12 +411,12 @@ body {
 
 .led-dot.active {
   background: var(--authentic-green);
-  box-shadow: 0 0 6px rgba(58, 125, 92, 0.4);
+  box-shadow: 0 0 6px rgba(34, 197, 94, 0.35);
 }
 
 .led-dot.danger {
   background: var(--forgery-red);
-  box-shadow: 0 0 6px rgba(139, 48, 64, 0.4);
+  box-shadow: 0 0 6px rgba(249, 115, 22, 0.35);
 }
 
 .led-dot.pulse {
@@ -430,7 +430,7 @@ body {
 
 /* Console log box */
 .console-vintage {
-  background: rgba(236, 229, 216, 0.6);
+  background: rgba(18, 14, 11, 0.9);
   border: 1px solid var(--border-aged);
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
@@ -481,13 +481,13 @@ body {
 
 .verdict-authentic {
   background: var(--authentic-green-dim);
-  border: 1px solid rgba(58, 125, 92, 0.3);
+  border: 1px solid rgba(34, 197, 94, 0.28);
   color: var(--authentic-green);
 }
 
 .verdict-forgery {
   background: var(--forgery-red-dim);
-  border: 1px solid rgba(139, 48, 64, 0.3);
+  border: 1px solid rgba(249, 115, 22, 0.28);
   color: var(--forgery-red);
 }
 
@@ -532,8 +532,8 @@ body {
   pointer-events: none;
   z-index: 0;
   background:
-    radial-gradient(ellipse at 30% 20%, rgba(197, 160, 79, 0.04) 0%, transparent 60%),
-    radial-gradient(ellipse at 70% 80%, rgba(107, 45, 62, 0.03) 0%, transparent 60%);
+    radial-gradient(ellipse at 30% 20%, rgba(212, 175, 55, 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse at 70% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 60%);
 }
 
 /* ── Chapter nav dots ──────────────────────────────────────────────────── */
