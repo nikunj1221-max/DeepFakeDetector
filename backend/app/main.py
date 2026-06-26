@@ -7,8 +7,11 @@ and returns a REAL/FAKE verdict from the EfficientNet-B0 model.
 import os
 from contextlib import asynccontextmanager
 
+from dotenv import load_dotenv
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+
+load_dotenv()
 
 from .model import ModelInference
 from .schemas import HealthResponse, ModelInfoResponse, PredictionResponse
@@ -49,17 +52,24 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# Allow the Vite dev server and any local preview to reach this API
+frontend_origin = os.getenv("FRONTEND_ORIGIN", "").strip()
+if frontend_origin:
+    allowed_origins = [origin.strip() for origin in frontend_origin.split(",") if origin.strip()]
+else:
+    allowed_origins = [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+    ]
+
+# In production, set FRONTEND_ORIGIN to your deployed frontend origin(s), e.g.
+# FRONTEND_ORIGIN=https://example.com
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://localhost:4173",
-        "http://localhost:3000",
-        os.getenv("FRONTEND_ORIGIN", ""),
-    ],
-    allow_credentials=True,
-    allow_methods=["*"],
+    allow_origins=allowed_origins,
+    allow_credentials=False,
+    allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["*"],
 )
 

@@ -4,7 +4,7 @@ import Uploader from './components/Uploader'
 import ResultCard from './components/ResultCard'
 import { soundManager } from './utils/sound'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+const API_URL = import.meta.env.VITE_API_URL || '/api'
 
 const SCAN_LOGS = [
   { time: 0, text: '[BELL] Initializing spectral frequency channels...' },
@@ -22,7 +22,7 @@ export default function App() {
   const [previewUrl, setPreviewUrl] = useState(null)
   const [result, setResult] = useState(null)
   const [consoleLogs, setConsoleLogs] = useState([])
-  const [showMockWarning, setShowMockWarning] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(null)
   const [sliderPos, setSliderPos] = useState(50)
 
   const consoleBottomRef = useRef(null)
@@ -48,8 +48,10 @@ export default function App() {
   const handleAnalyze = useCallback(async () => {
     if (!imageFile) return
     setPhase('analyzing')
-    setConsoleLogs([])
-    setShowMockWarning(false)
+    setConsoleLogs([
+      '[BELL] Packaging image and sending to prediction service...'
+    ])
+    setErrorMessage(null)
     soundManager.playSweep()
 
     let activeTimers = []
@@ -66,42 +68,33 @@ export default function App() {
     form.append('file', imageFile)
 
     let apiResult = null
+    let apiError = null
     try {
       const response = await axios.post(`${API_URL}/predict`, form, {
         headers: { 'Content-Type': 'multipart/form-data' },
+        timeout: 20000,
       })
       apiResult = response.data
-    } catch (err) { /* fallback */ }
+    } catch (err) {
+      apiError = err
+      console.error(err)
+    }
 
     const completionTimer = setTimeout(() => {
       if (apiResult) {
         setResult(apiResult)
         setPhase('done')
       } else {
+        setErrorMessage(
+          apiError?.response?.data?.detail ||
+          apiError?.message ||
+          'Unable to reach the prediction service. Please try again later.'
+        )
+        setPhase('error')
         setConsoleLogs((prev) => [
           ...prev,
-          '[BELL] Backend offline — engaging local cognitive simulator...',
-          '[BELL] Simulation complete. Dispatching forensic results.'
+          '[BELL] Analysis failed. Please check backend connectivity.'
         ])
-
-        const nameLower = imageFile.name.toLowerCase()
-        const isMockFake = nameLower.includes('fake') || nameLower.includes('deep') || nameLower.includes('ai') || nameLower.includes('gan')
-
-        const mockResult = {
-          verdict: isMockFake ? 'FAKE' : 'REAL',
-          confidence: 82.0 + Math.random() * 16.5,
-          probabilities: {
-            real: isMockFake ? 4.0 + Math.random() * 12 : 82.0 + Math.random() * 16.5,
-            fake: isMockFake ? 82.0 + Math.random() * 16.5 : 4.0 + Math.random() * 12
-          }
-        }
-
-        setShowMockWarning(true)
-        setTimeout(() => {
-          setResult(mockResult)
-          setPhase('done')
-          if (isMockFake) { soundManager.playWarning() } else { soundManager.playSuccess() }
-        }, 500)
       }
     }, 2200)
 
@@ -282,13 +275,21 @@ export default function App() {
 
                     {phase === 'done' && result && (
                       <div className="animate-fade-in w-full">
-                        {showMockWarning && (
-                          <div className="mb-4 border border-[var(--border-ornament)] bg-[var(--gold-dim)] p-2.5 flex items-center gap-3 rounded-md font-mono text-[9px] text-[var(--text-muted)]">
-                            <span className="led-dot active pulse shrink-0"></span>
-                            <span>Backend offline — using local simulation based on filename heuristics.</span>
-                          </div>
-                        )}
                         <ResultCard result={result} onReset={handleReset} />
+                      </div>
+                    )}
+                    {phase === 'error' && (
+                      <div className="vintage-card vintage-corners p-5 sm:p-6 flex flex-col gap-4 animate-fade-in border border-[var(--forgery-red-dim)] bg-[var(--surface-card)]">
+                        <div className="font-display text-sm sm:text-base font-bold text-[var(--forgery-red)]">Analysis failed</div>
+                        <p className="font-body text-sm text-[var(--text-body)] leading-relaxed">
+                          {errorMessage || 'Unable to complete the analysis at this time.'}
+                        </p>
+                        <button
+                          className="btn-vintage text-[10px] sm:text-xs py-3"
+                          onClick={handleReset}
+                        >
+                          Start Over
+                        </button>
                       </div>
                     )}
                   </div>

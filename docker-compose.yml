@@ -17,18 +17,17 @@ services:
       - ./backend/models:/app/models:ro
     restart: unless-stopped
 
-  # ── React / Vite frontend ─────────────────────────────────────────────
+  # ── React static frontend ─────────────────────────────────────────────
   frontend:
-    image: node:20-alpine
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     container_name: deepguard-ui
-    working_dir: /app
     ports:
-      - '5173:5173'
+      - '80:80'
     environment:
-      VITE_API_URL: http://localhost:8000
-    volumes:
-      - ./frontend:/app
-    command: sh -c "npm install && npm run dev -- --host"
+      # In production this is mostly handled by nginx reverse proxy.
+      VITE_API_URL: http://backend:8000
     depends_on:
       - backend
     restart: unless-stopped
