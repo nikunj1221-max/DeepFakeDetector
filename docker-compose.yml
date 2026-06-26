@@ -4,7 +4,7 @@ services:
 
   # ── FastAPI + PyTorch backend ─────────────────────────────────────────
   backend:
-    build: ./backend
+    build: ./deepfake-detector-api
     container_name: deepguard-api
     ports:
       - '8000:8000'
@@ -14,7 +14,7 @@ services:
       FRONTEND_ORIGIN: http://localhost:5173
     volumes:
       # Mount your local models/ folder so you can hot-swap checkpoint files
-      - ./backend/models:/app/models:ro
+      - ./deepfake-detector-api/models:/app/models:ro
     restart: unless-stopped
 
   # ── React static frontend ─────────────────────────────────────────────
