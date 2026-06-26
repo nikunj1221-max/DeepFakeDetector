@@ -4,6 +4,7 @@ import Uploader from './components/Uploader'
 import ResultCard from './components/ResultCard'
 import { soundManager } from './utils/sound'
 
+
 const API_URL = import.meta.env.VITE_API_URL || '/api'
 
 const SCAN_LOGS = [
@@ -24,7 +25,7 @@ export default function App() {
   const [consoleLogs, setConsoleLogs] = useState([])
   const [errorMessage, setErrorMessage] = useState(null)
   const [sliderPos, setSliderPos] = useState(50)
-
+  const [showMockWarning, setShowMockWarning] = useState(false)
   const consoleBottomRef = useRef(null)
 
   useEffect(() => {
@@ -40,6 +41,7 @@ export default function App() {
     setResult(null)
     setShowMockWarning(false)
     setPhase('selected')
+
     setConsoleLogs([
       '[BELL] Photograph received. Awaiting examination directive...'
     ])

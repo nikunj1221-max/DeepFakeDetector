@@ -13,7 +13,7 @@ export default function Uploader({ onImageSelected }) {
   const [isDragging, setIsDragging] = useState(false)
   const [validationError, setValidationError] = useState(null)
   const inputRef = useRef(null)
-
+   
   const handleFile = useCallback(
     (file) => {
       const error = validate(file)
